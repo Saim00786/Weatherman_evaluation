@@ -1,4 +1,6 @@
-def get_Questions_and_Answers(filename)
+# frozen_string_literal: true
+
+def get_questions_and_answers(filename)
   fd = File.open(filename,"r")
   str =  fd.read
   lines  = str.split()
@@ -8,10 +10,10 @@ def get_Questions_and_Answers(filename)
     tmp["Q"],tmp["A"] = a.split(',')
     questions << tmp
   }
-  return questions
+  questions
 end
 
-def startQuiz(questions,total_time=30)
+def start_quiz(questions,total_time=30)
   if total_time == 0
     total_time = 30
   end
@@ -54,8 +56,7 @@ def startQuiz(questions,total_time=30)
   }
   t1.join
   t2.join
-
-  return count
+  count
 end
 
 questions= get_Questions_and_Answers("problems.csv")
@@ -64,6 +65,6 @@ timer = gets.strip.to_i
 
 system("clear")
 
-correct= startQuiz(questions,timer)
+correct = startQuiz(questions,timer)
 puts "#{correct} out of #{questions.length} questions were correct."
 

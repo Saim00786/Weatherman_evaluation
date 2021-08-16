@@ -11,9 +11,9 @@ unless File.directory?(path)
   exit
 end
 
-w1 = Weatherman.new
+weatherman = Weatherman.new
 
-files = w1.get_filenames(path,year_or_month)
+files = weatherman.get_filenames(path, year_or_month)
 
 if files.empty?
   puts 'Year does not exist.'
@@ -22,7 +22,7 @@ end
 
 case mode
 when '-e'
-  max_temp, max_date, min_temp, min_date, max_humidity, max_humidity_date = w1.mode_e(files, path)
+  max_temp, max_date, min_temp, min_date, max_humidity, max_humidity_date = weatherman.get_year_data(files, path)
 
   puts "Highest: #{max_temp}C on #{Date::MONTHNAMES[Date.parse(max_date).month]} #{Date.parse(max_date).day} "
   puts "Lowest: #{min_temp}C on #{Date::MONTHNAMES[Date.parse(min_date).month]} #{Date.parse(min_date).day} "
@@ -38,7 +38,7 @@ when '-a'
     puts 'Month data not available.'
     exit
   end
-  tmp = w1.mode_a(filename, path)
+  tmp = weatherman.mode_a(filename, path)
 
   puts "Highest Average: #{tmp[0]}C"
   puts "Lowest Average: #{tmp[1]}C"
@@ -59,7 +59,7 @@ when '-c'
   year, month = year_or_month.split('/')
   month_name = Date::MONTHNAMES[month.to_i]
   puts "#{month_name} #{year}"
-  w1.draw_lines(filename, path)
+  weatherman.draw_lines(filename, path)
 else
   puts "Invalid option #{mode} not available."
 end

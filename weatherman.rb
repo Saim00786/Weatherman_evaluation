@@ -5,7 +5,7 @@ require 'colorize'
 class Weatherman
   def get_filenames(path, year_or_month)
     files = []
-    if !path.nil?
+    if path.present?
       files = Dir.entries(path)
     else
       puts 'path was not provided.'
@@ -14,7 +14,7 @@ class Weatherman
     files.select { |name| name.include? year_or_month.split('/')[0]}
   end
 
-  def mode_e(files, path)
+  def get_year_data(files, path)
     min = 999;
     max = max_humidity = 0
     max_date = min_date = max_humidity_date = ''
@@ -32,17 +32,17 @@ class Weatherman
   end
 
   def get_max_temp_avg(lines)
-    max_sum = lines.inject(0) { |sum, line| sum + line.split(',')[1].to_i unless line.split(',')[1].to_i.nil? }
+    max_sum = lines.inject(0) { |sum, line| sum + line.split(',')[1].to_i }
     max_sum / lines.size
   end
 
   def get_min_temp_avg(lines)
-    min_sum = lines.inject(0) { |sum, line| sum + line.split(',')[3].to_i unless line.split(',')[3].to_i.nil? }
+    min_sum = lines.inject(0) { |sum, line| sum + line.split(',')[3].to_i }
     min_sum / lines.size
   end
 
   def get_max_humidity_avg(lines)
-    max_hum = lines.inject(0) { |sum, line| sum + line.split(',')[7].to_i unless line.split(',')[7].to_i.nil? }
+    max_hum = lines.inject(0) { |sum, line| sum + line.split(',')[7].to_i }
     max_hum / lines.size
   end
 
